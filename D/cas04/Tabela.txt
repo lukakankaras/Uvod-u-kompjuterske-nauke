@@ -1,0 +1,138 @@
+Klijent(JMBG, Ime, Starost, Adresa)
+Hotel(HID, Naziv, GodinaGradnje)
+Soba(Broj,HID,Naziv)
+TipSobe(Naziv, BrojKreveta)
+Iznajmljivanje(ID, JMBG, HID, Broj, BrojDana, Iznos)
+
+
+// Klijent 
+(1111, Luka, 21, ulica 1)
+(2222, Marko, 19, ulica 2)
+(3333, Ana, 25, ulica 3)
+(4444, Janko, 33, ulica 4)
+
+// Iznajmljivanje
+// ID,   JMBG, HID, Broj, BrojDana, Iznos
+(  1250, 1111, 1,   002,  30,       500)
+(  1251, 3333, 3,   010,  3,        1000)
+(  1252, 2222, 3,   011,  2,        700)
+(  1600, 1111, 1,   003,  10,       200)
+(  1601, 3333, 2,   020,  5,        800)
+(  1602, 2222, 1,   035,  7,        900)
+(  1603, 2222, 1,   036,  7,        900)
+
+Klijent LEFT OUTER JOIN Iznajmljivanje 
+ON Klijent.JMBG = Iznajmljivanje.JMBG
+
+(1111, Luka, 21, ulica 1, 1250, 1111, 1,  002,  30,       500)
+(1111, Luka, 21, ulica 1, 1600, 1111, 1,   003,  10,       200)
+(4444, Janko, 33, ulica 4, NULL, NULL, NULL, NULL, NULL, NULL)
+
+
+
+
+
+
+
+
+
+...
+
+// Grupa 1111
+(  1250, 1111, 1,   002,  30,       500)
+(  1600, 1111, 1,   003,  10,       200)
+
+// Grupa 3333
+(  1251, 3333, 3,   010,  3,        1000)
+(  1601, 3333, 2,   020,  5,        800)
+
+// Grupa 2222
+(  1252, 2222, 3,   011,  2,        700)
+(  1602, 2222, 1,   035,  7,        900)
+(  1603, 2222, 1,   036,  7,        900)
+
+// Grupa 4444
+(4444, Janko, 33, ulica 4, NULL, NULL, NULL, NULL, NULL, NULL)
+
+1111	2
+2222    2
+3333    3
+4444    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INNER JOIN ON Hotel.HID = Soba.HID
+
+// Hotel
+(1, Splendid, 2001)
+(2, Adria, 2005)
+(3, Yugoslavia, 2004)
+(4, Yugoslavia, 2006)
+
+// Soba
+(001, 1, "Budzet")
+(002, 1, "Delux")
+(003, 1, "Delux")
+(004, 1, "Delux")
+(001, 2, "Budzet")
+(002, 2, "Budzet")
+(003, 2, "Budzet")
+
+
+
+SELECT Hotel.Naziv, COUNT(*) FROM (Hotel INNER JOIN Soba ON Hotel.HID = Soba.HID) Spojena 
+GROUP BY Hotel.HID, Hotel.Naziv
+
+// Hotel.HID, Hotel.Naziv, GodinaIzgradnje, BrojSobe, Soba.HID, Soba.Naziv
+(1, Splendid, 2001, 101, 1, "Budzet")
+(1, Splendid, 2001, 022, 1, "Delux")
+(1, Splendid, 2001, 043, 1, "Delux")
+(1, Splendid, 2001, 054, 1, "Delux")
+
+(2, Adria, 2005, 001, 2, "Budzet")
+(2, Adria, 2005, 002, 2, "Budzet")
+(2, Adria, 2005, 003, 2, "Budzet")
+
+(3, Yugoslavia, 2004, 010, "Delux")
+(3, Yugoslavia, 2004, 011, "Delux")
+(3, Yugoslavia, 2004, 012, "Delux")
+
+(4, Yugoslavia, 2006, 305, "Delux")
+(4, Yugoslavia, 2006, 306, "Delux")
+(4, Yugoslavia, 2006, 307, "Delux")
+(4, Yugoslavia, 2006, 308, "Delux")
+(4, Yugoslavia, 2006, 309, "Delux")
+
+
+Splendid	4
+Adria		3
+Yugoslavia	3
+Yugoslavia	5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

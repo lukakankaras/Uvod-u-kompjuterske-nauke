@@ -1,0 +1,59 @@
+1. Prikaži sve hotele (Naziv, GodinaGradnje) sortirane od najstarijeg ka najnovijem.
+
+SELECT Naziv, GodinaGradnje FROM Hotel 
+ORDER BY GodinaGradnje ASC
+
+2. Prikaži jedinstvene adrese klijenata (DISTINCT Adresa)
+
+SELECT DISTINCT Adresa FROM Klijent
+
+3. Nađi sve klijente starije od 50 godina (JMBG, Ime, Starost).
+
+SELECT JMBG, Ime, Starost FROM Klijent WHERE Starost > 50
+
+4. Koliko klijenata ima u bazi? (jedan broj)
+
+SELECT COUNT(*) FROM Klijent
+
+5. Prosječna starost klijenata (AVG).
+
+SELECT AVG(Starost) FROM Klijent
+
+6. Prikaži hotele izgrađene posle 2000. godine (HID, Naziv)
+
+SELECT HID, Naziv FROM Hotel WHERE GodinaGradnje > 2000
+
+7. Za svaki hotel prikaži Naziv hotela i broj soba u njemu.
+
+// Ako postoji kolona BrojSoba
+SELECT Naziv, BrojSoba FROM Hotel
+
+// Ako ne postoji kolona BrojSoba
+
+SELECT Hotel.Naziv, COUNT(*) FROM Hotel INNER JOIN Soba ON Hotel.HID = Soba.HID  
+GROUP BY Hotel.HID, Hotel.Naziv
+
+8.1. Za svakog klijenta prikaži JMBG i ukupan broj iznajmljivanja
+
+SELECT JMBG, COUNT(*) FROM Iznajmljivanje GROUP BY JMBG
+
+8.2. Za svakog klijenta prikaži JMBG i suma potrosenih eura
+
+SELECT JMBG, SUM(Iznos) FROM Iznajmljivanje GROUP BY JMBG
+
+8.3. Za svakog klijenta prikaži JMBG i prosjek potrosenih eura
+
+SELECT JMBG, AVG(Iznos) FROM Iznajmljivanje GROUP BY JMBG
+
+8.4. Za svakog klijenta prikaži JMBG i broj hotela u kojima je bio
+
+SELECT JMBG, COUNT(DISTINCT HID) FROM Iznajmljivanje GROUP BY JMBG
+
+/* Umjesto Iznajmljivanje koristimo 
+ Klijent LEFT OUTER JOIN Iznajmljivanje 
+ON Klijent.JMBG = Iznajmljivanje.JMBG i zadaci rade za ivicne slucajeve kada neki klijent nije iznajmio nista
+*/
+
+
+
+
