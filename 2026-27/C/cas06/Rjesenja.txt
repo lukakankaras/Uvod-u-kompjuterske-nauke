@@ -1,0 +1,199 @@
+1.
+
+	(cifra * baza^pozicija)
+
+   543210-123
+A) 110101,101 -> 2^5 + 2^4 + 2^2 + 2^0 + 2^-1 + 2^-3 = 
+				= 32 + 16 + 4 + 1 + 0.5 + 0.125
+				 = 53,625
+				 
+B) 37 ->
+	(37 / 2) = 18 (1)
+	(18 / 2) = 9  (0)
+	(9 / 2)  = 4  (1)
+	(4 / 2)  = 2  (0)
+	(2 / 2)  = 1  (0)
+	(1 / 2)  = 0  (1)
+
+0,375  -> 
+	(0,375 * 2) = 0,75 (0)
+	(0,75 * 2)  = 1,5  (1)
+	(0,5  * 2)  = 1    (1)
+	0
+
+
+37,375  -> 100101,011
+
+C) 
+	(2^4 = 16) X = 4
+	
+	(12 / 2) = 6 (0)
+	(6 / 2) =  3 (0)
+	(3 / 2) =  1 (1)
+	(1 / 2) =  0 (1)
+	
+	7 -> 0111
+	C -> 1100
+	3 -> 0011
+	
+3C7 -> (00) 1111000111
+			
+			210
+D) (oktalni)254 = 2*8^2 + 5*8^1 + 4*8^0  = 128 + 40 + 4 
+										= 172
+
+2. 
+
+ A) -25,75 -> -11001,11 -> -1,100111 * 2^4
+ 
+ 		4 + 127 = 131 = 128 + 3
+ 
+ 		0 .... 5 ..... 10
+ 		0      1	   2
+ 		
+ 	101,00010101
+ 	101,01000000
+ 
+ 		3,256
+ 		3,3500000000000
+ 
+	 1 | 10000011 | 10011100000000000000000
+
+B)
+
+	3,62 = 3,62000000000000000000000000000
+
+543210
+100010 = 2^1 + 2^5 = 32 + 2
+
+0,1011 = 2^-1 + 2^-3 + 2^-4 = 0,5 + 
+							  0,125 + 
+							  0,0625
+						  =   0,6875
+
+	-1,000101011 * 2^5 = -100010,1011 = -34,6875
+		
+	132 - 127 = 5
+		
+	1 | 10000100 | 00010101100000000000000
+
+// 8bit DRUGI KOMPLEMENT
+
+integer x = 5;
+	
+	8 - BITA = 2 ^ 8
+	
+	
+  X=5       00000101
+  X=-5      00000101 -> 11111010 + 1 -> 11111011
+  
+  +5 + (-5)  	
+	00000101
+	11111011
+---------------
+    00000000
+
+
+3.
+
+A) 
+SELECT * FROM Knjiga WHERE 
+ Broj_Strana >= 50 AND Broj_Strana <= 100
+ AND Autor LIKE 'M%ć' ORDER BY Autor ASC
+
+B) 
+
+SELET COUNT(*) FROM Iznajmljivanje INNER JOIN Knjiga ON Iznajmljivanje.Knjiga_ID =
+ Knjiga.ID WHERE Knjiga.Naziv = "Zlo 
+  proljece"
+
+C)
+
+SELECT Klijent.Ime, Klijent.Prezime FROM 
+Klijent INNER JOIN Iznajmljivanje ON Klijent.ID = Iznajmljivanje.Klijent_ID 
+GROUP BY Klijent.ID, Klijent.Ime, Klijent.Prezime 
+HAVING COUNT(*) >= ALL(
+	SELECT COUNT(*) FROM Iznajmljivanje 
+	GROUP BY Klijent_ID
+)
+
+D) 
+
+SELECT Klijent_ID, COUNT(*) FROM Iznajmljivanje GROUP BY Klijent_ID
+
+
+E)
+Napisati upit kojim se selektuje ime i prezime klijenta i ukupan broj njegovih iznajmljivanja, pod uslovom da ima vise od 3 iznajmljivanja.
+
+SELECT Klijent.Ime, Klijent.Prezime, COUNT(*) FROM Klijent INNER JOIN Iznajmljivanje 
+ON Klijent.ID = Iznajmljivanje.Klijent_ID GROUP BY Klijent.ID, Klijent.Ime, Klijent.Prezime
+HAVING COUNT(*) > 3
+
+F)
+Napisati upit kojim se selektuje ime i prezime klijenta i ukupan broj njegovih iznajmljivanja (Uzeti u obzir slucaj da postoji klijent bez iznajmljivanja – za tog klijenta je broj iznajmljivanja 0).
+
+
+SELECT Klijent.Ime, Klijent.Prezime, COUNT(Iznajmljivanje.Knjiga_ID) FROM Klijent LEFT OUTER JOIN Iznajmljivanje 
+ON Klijent.ID = Iznajmljivanje.Klijent_ID GROUP BY Klijent.ID, Klijent.Ime, Klijent.Prezime
+
+(3, Marko, Markovic, 2017, NULL, NULL, NULL, ...)
+
+G)
+
+Naći sve parove klijenata (dovoljno je samo parove njihovih ID) koji su iznajmili barem jednu istu knjigu (obratiti pažnju da ne bude duplikata parova ili parova dje su oba klijenta u paru jedan isti klijent).
+
+
+SELECT K1.ID, K2.ID FROM Klijent K1, Klijent K2 WHERE K1.ID < K2.ID
+
+///
+
+Selektovati knjige koju su iznajmili klijenti 3 i 2
+
+SELECT Knjiga.ID FROM Knjiga WHERE EXISTS(
+	SELECT * FROM Iznajmljivanje WHERE Klijent_ID = 3 AND Knjiga_ID = Knjiga.ID
+) AND 
+EXISTS (
+	SELECT * FROM Iznajmljivanje WHERE Klijent_ID = 2 AND Knjiga_ID = Knjiga.ID
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

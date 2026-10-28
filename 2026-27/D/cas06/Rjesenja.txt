@@ -1,0 +1,184 @@
+1.
+
+a)  110101,101 = 53,625
+
+b)  
+	(37 / 2) = 18 (1)
+	(18 / 2) = 9  (0)
+	(9 / 2)  = 4  (1)
+	(4 / 2)  = 2  (0)
+	(2 / 2)  = 1  (0)
+	(1 / 2)  = 0  (1)
+	
+	(0,375 * 2) = 0,75 (0)
+	(0,75 * 2)  = 1,5  (1)
+	(0.5 * 2)   = 1    (1)
+	0
+	
+	37,375 = 100101,011
+	
+c)  
+	(16 = 2^4)
+
+	(7 / 2 = 3) (1)
+	(3 / 2 = 1) (1)
+	(1 / 2 = 0) (1)
+
+	3C7 -> (00)1111000111 = 1111000111
+	
+d) 
+	(cifra * baza ^ (mjesto_cifre))
+
+
+	210
+    254 = 10101100 =   1 * 2^2 + 1 * 2^3 + 1 * 2^5 + 
+    					1 * 2^7 = 4 + 8 + 32 + 128 = 172
+    					 
+    				   4 + 8 + 32 + 128 = 172
+    
+    (oktalni) 254 = 2 * 8^2 + 5 * 8^1 + 4 * 8^0 = 
+                    2 * 64 + 5 * 8 + 4 * 1 = 
+                    128 + 40 + 4 = 172
+                    
+2. 
+	a)
+
+	~ Pretvoriti u binarni zapis
+	~ Normalizovati broj ( pomjeriti zarez iza prve 1 )
+	( ako ste pomjerili zarez u lijevo, bice pozitivan 
+	  eksponent, u suprotnom bice negativan )
+	~ Znak 0 -> +, 1 -> - (1. bit)
+	~ Eksponent +127 zapisemo u binarnoj formi u narednih 
+	  8 bita
+	~ Mantisu prepisite (ima i slucaj sa zaokruzivanjem)
+	
+	-25,75 = -11001,11
+	
+		(+/-)1,MANTISA * 2^EXPONENT
+	
+	-11001,11 = -1,100111 * 2^4
+	
+	
+	| 1 | 10000011 | 10011100000000000000000
+	
+		
+
+	av2) -1,10011100000000000000000001 * 2^4
+    
+				     10011100000000000000001 101
+    | 1 | 10000011 | 10011100000000000000010 100
+    
+	b) 
+	
+	
+		-1,000101011 * 2^5 = -100010,1011
+	
+			132 - 127 = 5
+	
+		1 | 10000100 | 00010101100000000000000
+		1   10000100   00010101100000000000000
+	
+	0.0625
+	0.125
+	0.5
+	0.6875
+	
+    -34,6875
+    
+    // Drugi komplement
+    // Sabiranje brojeva u drugom komplementu
+    
+    8-bita
+    
+    +7                -7
+    00000111		  00000111
+    				  11111000
+    				  		+1
+			  		  11111001
+    
+    +7 + (-7) = 0
+    
+    
+    00000111
+    11111001
+-------------
+    00000000
+    
+    
+    7 - 13 = +7 + (-13)
+    
+    7 = 00000111
+    -13 = 00001101 -> 11110010 + 1 = 11110011
+    
+    +7 + (-13) = -6
+    
+       
+    00000111
+    11110011
++-------------
+    11111010   ->   00000101 + 1 = 00000110 
+    
+    -6
+    
+    
+    
+3.
+
+	a) SELECT * FROM Knjiga WHERE Broj_Strana <= 100 
+	AND Broj_Strana >= 50 AND Autor LIKE 'M%ć' 
+	ORDER BY Autor ASC
+    
+    b) ID knjige je 5 za "Zlo proljece"
+    
+    SELECT COUNT(*) FROM Iznajmljivanje WHERE 
+    Knjiga_ID = (SELECT ID FROM Knjiga WHERE 
+    Naziv = "Zlo proljece")
+    
+    c)
+    
+    SELECT Ime, Prezime FROM Klijent WHERE 
+    ( 
+    	SELECT COUNT(*) FROM Iznajmljivanje WHERE 
+    	Klijent_ID = Klijent.ID
+    ) >= ALL(
+    	SELECT COUNT(*) FROM Iznajmljivanje GROUP BY 
+		Klijent_ID
+    )
+
+
+	d) 	
+    SELECT Klijent_ID, COUNT(*) FROM Iznajmljivanje
+    GROUP BY Klijent_ID
+    
+    
+    (1, 2, 3)
+
+
+// GRUPA 1				1, 2    
+    (1, A)
+    (1, B)
+
+// GRUPA 2				2, 2
+    (2, B)
+    (2, C)
+    
+// GRUPA 3				3, 0
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+		   
