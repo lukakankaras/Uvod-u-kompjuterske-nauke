@@ -1,0 +1,80 @@
+g) Naći sve parove klijenata (dovoljno je samo parove njihovih ID) koji su iznajmili barem jednu istu knjigu (obratiti pažnju da ne bude duplikata parova ili parova dje su oba klijenta u paru jedan isti klijent).
+
+SELECT K1.ID, K2.ID FROM Klijent K1, Klijent K2 WHERE K1.ID < K2.ID 
+AND EXISTS(
+	SELECT * FROM Iznajmljivanje I1, Iznajmljivanje I2 WHERE 
+	I1.Klijent_ID = K1.ID AND
+	I2.Klijent_ID = K2.ID AND
+	I1.Knjiga_ID = I2.Knjiga_ID
+)
+
+SELECT K1.ID, K2.ID FROM Klijent K1, Klijent K2 WHERE K1.ID < K2.ID 
+AND EXISTS(
+	SELECT K.ID FROM Knjiga K WHERE 
+	EXISTS(
+		SELECT * FROM Iznajmljivanje WHERE Klijent_ID = K1 AND 
+		Knjiga_ID = K.ID
+	) AND 
+	EXISTS(
+		SELECT * FROM Iznajmljivanje WHERE Klijent_ID = K2 AND 
+		Knjiga_ID = K.ID
+	)
+)
+
+
+Klijent 1 	Klijent 2
+
+Knjiga 101, 102, 103
+
+// Iznajmljivanje
+
+// I1						I2
+(1, 1, 101, 5)			(1, 1, 101, 5)
+(2, 1, 102, 6)			(2, 1, 102, 6)
+(3, 2, 103, 3)			(3, 2, 103, 3)
+(4, 2, 101, 6)			(4, 2, 101, 6)
+
+// I1, I2
+(1, 1, 101, 5, 1, 1, 101, 5)
+(1, 1, 101, 5, 2, 1, 102, 6)
+(1, 1, 101, 5, 3, 2, 103, 3)
+
+
+
+(1, 1, 101, 5, 4, 2, 101, 6)
+
+
+...
+
+...
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

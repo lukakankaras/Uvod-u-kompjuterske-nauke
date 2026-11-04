@@ -1,0 +1,60 @@
+10. Prikaži sve sobe uz informaciju koliko kreveta imaju.
+SELECT S.Broj, S.HID, T.BrojKreveta FROM Soba S INNER JOIN TipSobe T ON S.Naziv = T.Naziv
+
+11. Za svaki hotel prikaži ukupan prihod (SUM Iznos).
+
+SELECT H.HID, SUM(I.Iznos) FROM 
+Hotel H LEFT OUTER JOIN Iznajmljivanje I ON H.HID = I.HID
+GROUP BY H.HID
+
+12. Prikaži klijente koji su u prosjeku iznajmljivali duže od 5 dana
+
+( JMBG, prosjek_dana )
+
+SELECT JMBG, AVG(BrojDana) FROM Iznajmljivanje
+GROUP BY JMBG HAVING AVG(BrojDana) > 5
+
+13. Prikaži (Ime klijenta, Naziv hotela) za sva realizovana iznajmljivanja (distinct parovi).
+
+Klijent - Iznajmljivanje - Hotel
+
+SELECT DISTINCT K.Ime, H.Naziv FROM 
+Klijent K INNER JOIN Iznajmljivanje I ON K.JMBG = I.JMBG 
+INNER JOIN Hotel H ON H.HID = I.HID
+
+14. Prikaži sve sobe koje su dvokrevetne 
+(Broj, HID, Naziv (tipa) sobe).
+
+SELECT S.Broj, S.HID, S.Naziv FROM Soba S INNER JOIN TipSobe T ON S.Naziv = T.Naziv WHERE T.BrojKreveta = 2
+
+15. Za svaki tip sobe prikaži ukupan broj soba u svim hotelima.
+
+SELECT Naziv, COUNT(*) FROM Soba GROUP BY Naziv 
+
+16. Za klijente koji su potrošili više od 1000 ukupno, prikaži Ime i SUM(Iznos).
+
+SELECT K.Ime, SUM(I.Iznos) FROM 
+Klijent K INNER JOIN Iznajmljivanje I ON K.JMBG = I.JMBG 
+GROUP BY K.JMBG, K.Ime HAVING SUM(I.Iznos) > 1000
+
+17. Za svaki hotel prikaži Naziv i prosječan broj dana po iznajmljivanju.
+
+SELECT H.Naziv, AVG(I.BrojDana) FROM 
+Hotel H INNER JOIN Iznajmljivanje I ON H.HID = I.HID
+GROUP BY H.HID, H.Naziv
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
