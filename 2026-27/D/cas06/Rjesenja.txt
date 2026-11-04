@@ -146,12 +146,11 @@ d)
     )
 
 
-	d) 	
-    SELECT Klijent_ID, COUNT(*) FROM Iznajmljivanje
-    GROUP BY Klijent_ID
+	d) 	Napisati upit kojim se selektuje ID klijenta i ukupan broj iznajmljivanja koje taj klijent ima. (Pretpostaviti da u bazi svaki klijent ima barem jedno iznajmljivanje).
+	
+	
+    SELECT Klijent_ID, COUNT(*) FROM Iznajmljivanje GROUP BY Klijent_ID
     
-    
-    (1, 2, 3)
 
 
 // GRUPA 1				1, 2    
@@ -164,10 +163,153 @@ d)
     
 // GRUPA 3				3, 0
     
+    e) Napisati upit kojim se selektuje ime i prezime klijenta i ukupan broj njegovih iznajmljivanja, pod uslovom da ima vise od 3 iznajmljivanja.
+    
+    (Veza 1 : n)
+    
+    (Klijent - vise Iznajmljivanja)
+    (Iznajmljivanje - jedan Klijent)
+    
+
+Klijent INNER JOIN Iznajmljivanje ON Klijent.ID = Iznajmljivanje.Klijent_ID
+
+ Napisati upit kojim se selektuje ime i prezime klijenta i ukupan broj njegovih iznajmljivanja, pod uslovom da ima vise od 3 iznajmljivanja.
+
+
+
+
+SELECT Klijent.Ime, Klijent.Prezime, COUNT(*) FROM Klijent INNER JOIN Iznajmljivanje ON Klijent.ID = Iznajmljivanje.Klijent_ID 
+GROUP BY Klijent.ID, Klijent.Ime, Klijent.Prezime HAVING COUNT(*) > 3
+    
+   
+   
+    
+f) Napisati upit kojim se selektuje ime i prezime klijenta i ukupan broj njegovih iznajmljivanja (Uzeti u obzir slucaj da postoji klijent bez iznajmljivanja – za tog klijenta je broj iznajmljivanja 0).
+
+SELECT Klijent.Ime, Klijent.Prezime, COUNT(Iznajmljivanje.ID) FROM Klijent LEFT OUTER JOIN Iznajmljivanje ON Klijent.ID = Iznajmljivanje.Klijent_ID 
+GROUP BY Klijent.ID, Klijent.Ime, Klijent.Prezime
+    
+//	Tabela Klijent
+    
+//  (1, Marko, Markovic, 2004) 
+//  (2, Ana,   Markovic, 2005) ✔✔✔✔✔
+//  (3, Janko, Jankovic, 1999)
+//  (4, Mitar, Mitrovic, 2003)
+    
+//  Tabela Iznajmljivanje
+
+//  (1, 1, 100, 3)
+//  (2, 2, 102, 5)
+//  (3, 1, 101, 5)
+//  (4, 3, 104, 8)
+//  (5, 2, 101, 6)
+//  (6, 2, 100, 3)
+    
+//  (1, Marko, Markovic, 2004, 1, 1, 100,  3)
+//  (1, Marko, Markovic, 2004, 3, 1, 101,  5)
+
+//  (2, Ana,   Markovic, 2005, 2, 2, 102,  5)
+//  (2, Ana,   Markovic, 2005, 5, 2, 101,  6)
+//  (2, Ana,   Markovic, 2005, 6, 2, 100,  3)
+
+//  (3, Janko, Jankovic, 1999, 4, 3, 104,  8)
+
+//  (4, Mitar, Mitrovic, 2003, N, N, N, NULL)
     
     
     
+// Marko Markovic 2
+// Ana 	 Markovic 3
+// Janko Jankovic 1
+// Mitar Mitrovic 0
     
+    
+//  						  (1, 1, 100, 3)
+//  						  (3, 1, 101, 5)
+//  						  (2, 2, 102, 5)
+//						      (5, 2, 101, 6)
+//						      (6, 2, 100, 3)
+//						      (4, 3, 104, 8) 
+    
+    
+g) Naći sve parove klijenata (dovoljno je samo parove njihovih ID) 
+koji su iznajmili barem jednu istu knjigu (obratiti pažnju da ne bude duplikata parova ili parova dje su oba klijenta u paru jedan isti klijent).
+
+1 2 3 4
+
+K1.ID < K2.ID
+
+1 2 ✔ // K1.ID = 1, K2.ID = 2
+1 3
+1 4
+2 3
+2 4
+3 4
+
+SELECT K1.ID, K2.ID FROM Klijent K1, Klijent K2 WHERE K1.ID < K2.ID
+AND EXISTS(
+	SELECT * FROM Iznajmljivanje I1 INNER JOIN Iznajmljivanje I2 ON I1.Knjiga_ID = I2.Knjiga_ID WHERE I1.Klijent_ID = K1.ID AND I2.Klijent_ID = K2.ID 
+)
+
+// Iznajmljivanje
+
+//  (1, 1, 100, 3)
+//  (2, 2, 102, 5)
+//  (3, 1, 101, 5)
+//  (4, 3, 104, 8)
+//  (5, 2, 101, 6)
+//  (6, 2, 100, 3)
+
+//  (1, 1, 100, 3)
+//  (2, 2, 102, 5)
+//  (3, 1, 101, 5)
+//  (4, 3, 104, 8)
+//  (5, 2, 101, 6)
+//  (6, 2, 100, 3)
+
+
+// (1, 1, 100, 3, 1, 1, 100, 3)
+// (1, 1, 100, 3, 6, 2, 100, 3)
+
+
+
+// Iznajmljivanje I2 INNER JOIN Iznajmljivanje I1 ON I1.Knjiga_ID = I2.Knjiga_ID
+
+
+
+
+// Selektujte knjige koje je iznajmljivao klijent 3
+
+SELECT DISTINCT Knjiga_ID FROM Iznajmljivanje WHERE Klijent_ID = 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     
     
